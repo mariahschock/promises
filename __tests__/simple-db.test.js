@@ -26,4 +26,28 @@ describe('simple database', () => {
     expect(result).toEqual(cat);
   });
 
+  it('SAVE should save an object', async () => {
+    const savedObj = {
+      name: 'TK',
+      age: 3
+    };
+    // const expected = Object.assign({
+    //   id: expect.any(String)
+    // }, savedObj);
+
+    // const simpleDb = new SimpleDb(TEST_DIR);
+    // return simpleDb.save(savedObj)
+    //   .then(() => simpleDb.get(savedObj.id))
+    //   .then(actual => expect(actual).toEqual(expected));
+  
+    const db = new SimpleDb(TEST_DIR);
+    const actual = { ...savedObj, id : expect.any(String) };
+    return db.save(savedObj)
+      .then(newFile => { expect(newFile).toEqual(actual); 
+      });
+      
+    // const obj = await db.save(savedObj);
+    // expect(await db.get(obj.id)).toEqual(savedObj);
+  });
+
 });
