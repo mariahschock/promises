@@ -31,23 +31,53 @@ describe('simple database', () => {
       name: 'TK',
       age: 3
     };
-    // const expected = Object.assign({
-    //   id: expect.any(String)
-    // }, savedObj);
-
-    // const simpleDb = new SimpleDb(TEST_DIR);
-    // return simpleDb.save(savedObj)
-    //   .then(() => simpleDb.get(savedObj.id))
-    //   .then(actual => expect(actual).toEqual(expected));
   
     const db = new SimpleDb(TEST_DIR);
     const actual = { ...savedObj, id : expect.any(String) };
     return db.save(savedObj)
       .then(newFile => { expect(newFile).toEqual(actual); 
       });
-      
-    // const obj = await db.save(savedObj);
-    // expect(await db.get(obj.id)).toEqual(savedObj);
+  });
+
+  it('getAll should return all objects', async () => {
+    const allObjects = [
+      {
+        name: 'Phoebe',
+        age: 1
+      },
+      {
+        name: 'Philly',
+        age: 2
+      },
+      {
+        name: 'Copper',
+        age: 3
+      },
+    ];
+
+    const db = new SimpleDb(TEST_DIR);
+
+    allObjects.forEach(async object => {
+      await db.save(object);
+    });
+
+    expect(await db.getAll()).toEqual([
+      {
+        name: expect.any(String),
+        age: expect.any(Number),
+        id: expect.any(String)
+      },
+      {
+        name: expect.any(String),
+        age: expect.any(Number),
+        id: expect.any(String)
+      },
+      {
+        name: expect.any(String),
+        age: expect.any(Number),
+        id: expect.any(String)
+      },
+    ]);
   });
 
 });
