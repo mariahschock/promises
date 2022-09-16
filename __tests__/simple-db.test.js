@@ -57,27 +57,28 @@ describe('simple database', () => {
 
     const db = new SimpleDb(TEST_DIR);
 
-    allObjects.forEach(async object => {
-      await db.save(object);
+    return Promise.all(allObjects.map(object => {
+      return db.save(object);
+    })).then(() => {return db.getAll();}).then(retrievedObjects => {
+      expect(retrievedObjects).toEqual([
+        {
+          name: expect.any(String),
+          age: expect.any(Number),
+          id: expect.any(String)
+        },
+        {
+          name: expect.any(String),
+          age: expect.any(Number),
+          id: expect.any(String)
+        },
+        {
+          name: expect.any(String),
+          age: expect.any(Number),
+          id: expect.any(String)
+        },
+      ]);
     });
-
-    expect(await db.getAll()).toEqual([
-      {
-        name: expect.any(String),
-        age: expect.any(Number),
-        id: expect.any(String)
-      },
-      {
-        name: expect.any(String),
-        age: expect.any(Number),
-        id: expect.any(String)
-      },
-      {
-        name: expect.any(String),
-        age: expect.any(Number),
-        id: expect.any(String)
-      },
-    ]);
+ 
   });
 
 });
